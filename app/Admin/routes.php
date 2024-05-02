@@ -17,6 +17,7 @@ Route::group([
     'as'            => config('admin.route.prefix') . '.',
 ], function (Router $router) {
 
+    //rutas del proyecto
     $router->get('/', 'HomeController@index')->name('home');
     $router->resource('marcas', MarcaController::class);
     $router->resource('categorias', CategoriaController::class);
