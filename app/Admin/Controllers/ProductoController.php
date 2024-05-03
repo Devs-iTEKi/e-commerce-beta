@@ -2,11 +2,13 @@
 
 namespace App\Admin\Controllers;
 
-use OpenAdmin\Admin\Controllers\AdminController;
+use App\Models\Categoria;
+use App\Models\Marca;
+use \App\Models\Producto;
 use OpenAdmin\Admin\Form;
 use OpenAdmin\Admin\Grid;
 use OpenAdmin\Admin\Show;
-use \App\Models\Producto;
+use OpenAdmin\Admin\Controllers\AdminController;
 
 class ProductoController extends AdminController
 {
@@ -35,6 +37,24 @@ class ProductoController extends AdminController
         $grid->column('imagen')->image();
         $grid->column('id_categoria', __('Id categoria'));
         $grid->column('id_marca', __('Id marca'));
+
+        // Mostrar el nombre de la categoría en lugar del ID
+        // $grid->column('categoria.nombre', __('Categoria'));
+
+        // Mostrar el nombre de la marca en lugar del ID
+        // $grid->column('marca.nombre', __('Marca'));
+
+        // Realizar el JOIN con la tabla Categorias
+        // $grid->joinTable('Categorias', 'id_categoria', 'Categorias.id', function ($join) {
+        //     $join->column('nombre')->display('Categoria');
+        // });
+
+        // Realizar el JOIN con la tabla Marcas
+        // $grid->joinTable('Marcas', 'id_marca', 'Marcas.id', function ($join) {
+        //     $join->column('nombre')->display('Marca');
+        // });
+        
+
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
@@ -79,8 +99,14 @@ class ProductoController extends AdminController
         $form->decimal('precio', __('Precio'));
         $form->number('stock', __('Stock'));
         $form->image('imagen', __('Imagen'));
-        $form->number('id_categoria', __('Id categoria'));
-        $form->number('id_marca', __('Id marca'));
+        // $form->select('id_categoria', __('categoria'));
+        // $form->select('id_marca', __('marca'));
+        // Obtener todas las categorías y marcas para mostrarlas en el select
+        $categorias = Categoria::all()->pluck('nombre', 'id')->toArray();
+        $marcas = Marca::all()->pluck('nombre', 'id')->toArray();
+
+        $form->select('id_categoria', __('Categoria'))->options($categorias);
+        $form->select('id_marca', __('Marca'))->options($marcas);
 
         return $form;
     }
