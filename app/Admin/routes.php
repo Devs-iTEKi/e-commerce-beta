@@ -22,6 +22,5 @@ Route::group([
     $router->resource('marcas', MarcaController::class);
     $router->resource('categorias', CategoriaController::class);
     $router->resource('productos', ProductoController::class);
-    $router->resource('producs', ProducController::class);
 
 });
